@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Awareness Portal | EVM Demo Simulator & Civic AI</title>
+
+    <!-- SEO Meta -->
+    <meta name="description"
+        content="Interactive Election Awareness Portal with EVM Demo Voting Simulation, Voter Eligibility, Awareness Gallery, and Civic AI Assistant.">
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+       1. CSS DESIGN SYSTEM & DYNAMIC THEMES
+       ========================================================================== */
+        :root {
+            /* LIGHT THEME */
+            --primary: #1e3a8a;
+            /* Deep Slate Navy */
+            --primary-hover: #1e40af;
+            --accent: #2563eb;
+            /* Vibrant Blue */
+            --accent-light: #eff6ff;
+            --gold: #d97706;
+            /* Amber Gold */
+            --gold-light: #fffbeb;
+            --success: #059669;
+            /* Emerald Green */
+            --success-light: #ecfdf5;
+            --error: #dc2626;
+            /* Coral Red */
+            --error-light: #fef2f2;
+
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.94);
+            --bg-input: #f1f5f9;
+
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+
+            --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 20px 35px -10px rgba(30, 58, 138, 0.15);
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* DARK THEME */
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --accent: #60a5fa;
+            --accent-light: rgba(59, 130, 246, 0.15);
+            --gold: #f59e0b;
+            --gold-light: rgba(245, 158, 11, 0.15);
+            --success: #10b981;
+            --success-light: rgba(16, 185, 129, 0.15);
+            --error: #ef4444;
+            --error-light: rgba(239, 68, 68, 0.15);
+
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-nav: rgba(15, 23, 42, 0.94);
+            --bg-input: #334155;
+
+            --text-heading: #f8fafc;
+            --text-body: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* MIDNIGHT CIVIC THEME */
+        [data-theme="midnight"] {
+            --primary: #06b6d4;
+            --primary-hover: #22d3ee;
+            --accent: #38bdf8;
+            --accent-light: rgba(6, 182, 212, 0.15);
+            --gold: #fbbf24;
+            --gold-light: rgba(251, 191, 36, 0.15);
+            --success: #34d399;
+            --success-light: rgba(52, 211, 153, 0.15);
+            --error: #f87171;
+            --error-light: rgba(248, 113, 113, 0.15);
+
+            --bg-main: #020617;
+            --bg-card: #090d16;
+            --bg-nav: rgba(2, 6, 23, 0.94);
+            --bg-input: #1e293b;
+
+            --text-heading: #f1f5f9;
+            --text-body: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+
+            --shadow-sm: 0 2px 4px rgba(6, 182, 212, 0.1);
+            --shadow-md: 0 10px 25px -5px rgba(6, 182, 212, 0.2);
+            --shadow-lg: 0 20px 35px -10px rgba(6, 182, 212, 0.3);
+        }
+
+        /* ==========================================================================
+       2. RESET & BASE STYLES
+       ========================================================================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            line-height: 1.6;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 3.5rem auto;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 0.4rem 1.1rem;
+            background-color: var(--accent-light);
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: var(--radius-full);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: var(--radius-full);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-card);
+            color: var(--text-heading);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ==========================================================================
+       3. NAVIGATION BAR
+       ========================================================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: var(--bg-nav);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition-normal);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-body);
+            transition: var(--transition-normal);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .select-dropdown {
+            padding: 0.45rem 0.75rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* FLOATING TOOLBAR */
+        .floating-tools {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 1200;
+            display: flex;
+            gap: 0.5rem;
+            background: var(--bg-card);
+            padding: 0.5rem;
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .tool-btn {
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: var(--radius-full);
+            background: var(--bg-main);
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+
+        .tool-btn:hover {
+            background: var(--accent);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        /* ==========================================================================
+       4. HERO SECTION
+       ========================================================================== */
+        .hero-section {
+            padding-top: 8.5rem;
+            padding-bottom: 5rem;
+            background: radial-gradient(circle at 80% 20%, var(--accent-light) 0%, transparent 50%), var(--bg-main);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 3.25rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        .stat-item {
+            background-color: var(--bg-main);
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        /* ==========================================================================
+       5. ELIGIBILITY & REQUIRED DOCUMENTS
+       ========================================================================== */
+        .eligibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.75rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .elig-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+
+        .elig-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
+
+        .docs-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 3.5rem;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .doc-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.1rem 1.25rem;
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .doc-badge {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: var(--radius-full);
+            background: var(--success-light);
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .timeline-step {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .step-circle {
+            width: 3.25rem;
+            height: 3.25rem;
+            border-radius: var(--radius-full);
+            background: var(--primary);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-box {
+            background: var(--bg-card);
+            padding: 1.5rem 1.75rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            flex: 1;
+        }
+
+        /* ==========================================================================
+       6. DEMO EVM VOTING SIMULATION (REALISTIC STEP-BY-STEP VOTER FLOW)
+       ========================================================================== */
+        .sim-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* STEPPER HEADER */
+        .stepper-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            gap: 0.5rem;
+        }
+
+        .stepper-header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            right: 2rem;
+            height: 3px;
+            background: var(--border-color);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+
+        .stepper-progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            z-index: 2;
+            transform: translateY(-50%);
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .step-node {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-card);
+            padding: 0 0.5rem;
+            cursor: pointer;
+        }
+
+        .step-circle {
+            width: 3.25rem;
+            height: 3.25rem;
+            border-radius: var(--radius-full);
+            background: var(--bg-main);
+            border: 2px solid var(--border-color);
+            color: var(--text-muted);
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-node.active .step-circle {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+            transform: scale(1.1);
+        }
+
+        .step-node.completed .step-circle {
+            background: var(--success);
+            border-color: var(--success);
+            color: #ffffff;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .step-node.active .step-label {
+            color: var(--text-heading);
+            font-weight: 800;
+        }
+
+        /* STEP PANELS */
+        .step-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        /* STEP 1: IDENTITY VERIFICATION */
+        .verification-box {
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-heading);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1.1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+        }
+
+        /* STEP 2: INKING DEMO */
+        .inking-box {
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .finger-graphic {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .ink-mark {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 24px;
+            background: #3b0764;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            box-shadow: 0 0 10px rgba(59, 7, 100, 0.8);
+        }
+
+        .ink-mark.applied {
+            opacity: 1;
+        }
+
+        /* STEP 3 & EVM MACHINE */
+        .evm-machine {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            background: var(--bg-main);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--border-color);
+        }
+
+        .evm-panel-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .evm-status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: var(--radius-full);
+            background: var(--gold-light);
+            color: var(--gold);
+            font-weight: 800;
+        }
+
+        .evm-status-badge.ready {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .evm-candidate-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .evm-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            padding: 0.85rem 1.1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition-normal);
+            position: relative;
+        }
+
+        .evm-row:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .candidate-info {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .candidate-num {
+            width: 1.8rem;
+            height: 1.8rem;
+            border-radius: var(--radius-full);
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .candidate-symbol {
+            font-size: 1.4rem;
+        }
+
+        .candidate-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+        }
+
+        .evm-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .evm-led {
+            width: 14px;
+            height: 14px;
+            border-radius: var(--radius-full);
+            background-color: #dc2626;
+            border: 2px solid #991b1b;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s ease;
+        }
+
+        .evm-led.active {
+            background-color: #22c55e;
+            border-color: #15803d;
+            box-shadow: 0 0 12px #22c55e;
+        }
+
+        .evm-btn {
+            background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 0.55rem 1.4rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid #1e40af;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .evm-btn:hover:not(:disabled) {
+            background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+            transform: translateY(-1px);
+        }
+
+        .evm-btn:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        .evm-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #94a3b8;
+            border-color: #64748b;
+            box-shadow: none;
+        }
+
+        /* VVPAT DISPLAY SCREEN */
+        .vvpeat-screen {
+            background: #090d16;
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 4px solid #1e293b;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .vvpeat-glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .vvpeat-idle {
+            color: #94a3b8;
+            font-family: monospace;
+        }
+
+        .vvpeat-slip {
+            display: none;
+            background: #ffffff;
+            color: #0f172a;
+            width: 85%;
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px dashed #64748b;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .vvpeat-slip.printing {
+            display: block;
+            animation: slipDrop 6.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes slipDrop {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            10% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            80% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(120%);
+                opacity: 0;
+            }
+        }
+
+        /* VOTE RECORDED NOTIFICATION BANNER */
+        .vote-recorded-alert {
+            display: none;
+            margin-top: 1.5rem;
+            background: var(--success-light);
+            border: 2px solid var(--success);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            animation: popIn 0.4s ease;
+        }
+
+        .vote-recorded-alert.visible {
+            display: block;
+        }
+
+        .vote-success-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: var(--radius-full);
+            background: var(--success);
+            color: #ffffff;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem auto;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* STEP-WISE INFORMATION ACCORDION / CARDS */
+        .step-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+        }
+
+        .step-info-card {
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+            font-size: 0.88rem;
+        }
+
+        .step-info-card h5 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* RESULTS VISUALIZER */
+        .sim-results {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .bar-chart-item {
+            margin-bottom: 1rem;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-heading);
+            margin-bottom: 0.35rem;
+        }
+
+        .bar-bg {
+            height: 1rem;
+            background-color: var(--bg-main);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            width: 0%;
+            border-radius: var(--radius-full);
+            transition: width 1s ease-in-out;
+        }
+
+        /* ==========================================================================
+       7. ELECTION AWARENESS GALLERY
+       ========================================================================== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(0deg, rgba(15, 23, 42, 0.92) 0%, rgba(15, 23, 42, 0.4) 60%, transparent 100%);
+            padding: 2rem 1.5rem 1.25rem;
+            transition: opacity var(--transition-normal);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #f8fafc;
+            margin-bottom: 0.3rem;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .gallery-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(37, 99, 235, 0.3);
+            color: #93c5fd;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: var(--radius-full);
+            margin-bottom: 0.6rem;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ==========================================================================
+       8. AI CIVIC ASSISTANT CHATBOT
+       ========================================================================== */
+        .ai-chat-launcher {
+            position: fixed;
+            bottom: 5.5rem;
+            right: 1.5rem;
+            z-index: 1200;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: #ffffff;
+            padding: 0.85rem 1.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            box-shadow: var(--shadow-lg);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition-normal);
+        }
+
+        .ai-chat-launcher:hover {
+            transform: scale(1.05);
+        }
+
+        .ai-chat-modal {
+            display: none;
+            position: fixed;
+            bottom: 9.5rem;
+            right: 1.5rem;
+            z-index: 1300;
+            width: 380px;
+            max-width: 90vw;
+            height: 520px;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            flex-direction: column;
+            overflow: hidden;
+            animation: popIn 0.3s ease;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: #ffffff;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.85rem 1.1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .chat-msg.bot {
+            background: var(--bg-main);
+            color: var(--text-heading);
+            border: 1px solid var(--border-color);
+            align-self: flex-start;
+        }
+
+        .chat-msg.user {
+            background: var(--accent);
+            color: #ffffff;
+            align-self: flex-end;
+        }
+
+        .chat-chips {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .chip-btn {
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-full);
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.65rem 1rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            color: var(--text-heading);
+            outline: none;
+        }
+
+        .send-btn {
+            margin-left: 0.5rem;
+            background: var(--accent);
+            color: #ffffff;
+            border-radius: var(--radius-full);
+            width: 2.5rem;
+            height: 2.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Keyframes */
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 992px) {
+
+            .hero-content,
+            .gallery-grid,
+            .evm-machine {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 4.5rem;
+                left: 0;
+                right: 0;
+                background: var(--bg-card);
+                flex-direction: column;
+                padding: 2rem;
+                display: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .ai-chat-modal {
+                right: 1rem;
+                left: 1rem;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FLOATING TOOLBAR -->
+    <div class="floating-tools">
+        <button class="tool-btn" id="quickThemeBtn" title="Toggle Theme">☀️</button>
+        <a href="#simulation" class="tool-btn" title="Demo EVM Vote">🗳️</a>
+        <a href="#gallery" class="tool-btn" title="Awareness Gallery">🖼️</a>
+    </div>
+
+    <!-- FLOATING AI ASSISTANT LAUNCHER -->
+    <button class="ai-chat-launcher" id="aiLauncher">
+        <span>🤖</span>
+        <span>CivicAI Assistant</span>
+    </button>
+
+    <!-- AI CHAT MODAL -->
+    <div class="ai-chat-modal" id="aiChatModal">
+        <div class="chat-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800;">
+                <span>🤖</span>
+                <span>CivicAI Assistant</span>
+            </div>
+            <button id="closeChatBtn"
+                style="background: none; border: none; color: #ffffff; font-size: 1.25rem; cursor: pointer;">✕</button>
+        </div>
+
+        <div class="chat-body" id="chatBody">
+            <div class="chat-msg bot">
+                Hello! I am your <strong>CivicAI Assistant</strong>. Ask me anything about voter registration, required
+                documents, eligibility, or EVM demo voting!
+                <div class="chat-chips">
+                    <button class="chip-btn" data-query="documents">Required Documents?</button>
+                    <button class="chip-btn" data-query="eligibility">Am I Eligible?</button>
+                    <button class="chip-btn" data-query="location">Find Polling Booth?</button>
+                    <button class="chip-btn" data-query="evm">How EVM Works?</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask a voting question..." />
+            <button class="send-btn" id="sendChatBtn">➤</button>
+        </div>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                <span>🗳️</span>
+                <span id="txtLogo">Election Awareness</span>
+            </a>
+
+            <div class="nav-controls">
+                <select class="select-dropdown" id="langSelect" aria-label="Select Language">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="hi">🇮🇳 हिन्दी</option>
+                    <option value="es">🇪🇸 Español</option>
+                </select>
+
+                <select class="select-dropdown" id="themeSelect" aria-label="Select Theme">
+                    <option value="light">☀️ Light</option>
+                    <option value="dark">🌙 Dark</option>
+                    <option value="midnight">🌌 Midnight</option>
+                </select>
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active" id="navHome">Home</a></li>
+                <li><a href="#about" class="nav-link" id="navAbout">About</a></li>
+                <li><a href="#eligibility" class="nav-link" id="navElig">Eligibility & Docs</a></li>
+                <li><a href="#simulation" class="nav-link" id="navSim">Demo Vote</a></li>
+                <li><a href="#gallery" class="nav-link" id="navGallery">Gallery</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 1. HOME HERO SECTION -->
+    <section class="hero-section" id="home">
+        <div class="container hero-content">
+            <div>
+                <div
+                    style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.1rem; background: var(--accent-light); color: var(--accent); border-radius: var(--radius-full); font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem;">
+                    🗳️ Civic Education Portal
+                </div>
+                <h1 class="hero-title" id="heroTitle">Election Awareness: Your Vote, Your Voice, Your Future</h1>
+                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem;" id="heroSubtitle">
+                    Elections are the foundation of a healthy democracy. Learn how informed voting shapes policies,
+                    strengthens
+                    communities, and empowers every citizen.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#simulation" class="btn btn-primary" id="btnDemoVote">Try EVM Demo Vote 🗳️</a>
+                    <a href="#eligibility" class="btn btn-secondary" id="btnCheckElig">Check Eligibility ↓</a>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem;">
+                    <div
+                        style="width: 4rem; height: 4rem; background: var(--accent-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                        🏛️</div>
+                    <div>
+                        <h3 style="font-size: 1.25rem; font-weight: 800;" id="heroCardTitle">Democracy in Action</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);" id="heroCardSub">Empowering citizens
+                            through
+                            knowledge</p>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">100%</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;" id="stat1">
+                            Politically Neutral
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">1 Vote</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;" id="stat2">Makes A
+                            Difference
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. ABOUT ELECTIONS SECTION -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge" id="badgeAbout">Democracy Basics</span>
+                <h2 class="section-title" id="titleAbout">About Elections</h2>
+                <p class="section-subtitle" id="subAbout">What elections are and why they form the backbone of a free
+                    society.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+                <div>
+                    <p style="font-size: 1.05rem; margin-bottom: 1rem;">
+                        An <strong>election</strong> is a formal decision-making process by which a population chooses
+                        individuals
+                        to hold public office in a representative democracy.
+                    </p>
+                    <p style="font-size: 1.05rem;">
+                        In a democratic nation, elections ensure that power originates from the consent of the governed.
+                        Citizens
+                        hold leaders accountable and peacefully shape public policy.
+                    </p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div
+                        style="background: var(--bg-card); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; gap: 1rem; align-items: center;">
+                        <div style="font-size: 1.75rem;">⚖️</div>
+                        <div>
+                            <h4 style="font-weight: 800;">Equal Representation</h4>
+                            <p style="font-size: 0.88rem; color: var(--text-muted);">Every eligible voter receives an
+                                equal voice.</p>
+                        </div>
+                    </div>
+                    <div
+                        style="background: var(--bg-card); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; gap: 1rem; align-items: center;">
+                        <div style="font-size: 1.75rem;">🤝</div>
+                        <div>
+                            <h4 style="font-weight: 800;">Peaceful Power Transition</h4>
+                            <p style="font-size: 0.88rem; color: var(--text-muted);">Allows society to renew leadership
+                                constructively.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. ELIGIBILITY & REQUIRED DOCUMENTS -->
+    <section class="section" id="eligibility">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge" id="badgeElig">Voter Guide</span>
+                <h2 class="section-title" id="titleElig">Eligibility & Required Documents</h2>
+                <p class="section-subtitle" id="subElig">Ensure you meet legal criteria and bring valid identification
+                    on
+                    election day.</p>
+            </div>
+
+            <!-- Eligibility Cards -->
+            <div class="eligibility-grid">
+                <div class="elig-card">
+                    <div style="font-size: 2.25rem; margin-bottom: 1rem;">🎂</div>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem;" id="e1Title">Age Requirement
+                    </h4>
+                    <p style="font-size: 0.95rem; color: var(--text-muted);" id="e1Desc">Must be at least 18 years old
+                        on or
+                        before the qualifying date of the election year.</p>
+                </div>
+
+                <div class="elig-card">
+                    <div style="font-size: 2.25rem; margin-bottom: 1rem;">🪪</div>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem;" id="e2Title">Citizenship
+                        Status</h4>
+                    <p style="font-size: 0.95rem; color: var(--text-muted);" id="e2Desc">Must be a legally recognized
+                        citizen of
+                        the country in which the election is held.</p>
+                </div>
+
+                <div class="elig-card">
+                    <div style="font-size: 2.25rem; margin-bottom: 1rem;">📝</div>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem;" id="e3Title">Electoral Roll
+                        Registration</h4>
+                    <p style="font-size: 0.95rem; color: var(--text-muted);" id="e3Desc">Your name must be officially
+                        registered
+                        in the voter list of your polling constituency.</p>
+                </div>
+            </div>
+
+            <!-- Required Documents -->
+            <div class="docs-container">
+                <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;" id="docsTitle">Accepted Photo ID
+                    Documents</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="docsSub">Voters must present one of the
+                    following valid photo identity documents at the booth:</p>
+
+                <div class="docs-grid">
+                    <div class="doc-item">
+                        <div class="doc-badge">✓</div><span>Voter ID Card (EPIC)</span>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-badge">✓</div><span>Aadhaar / National ID Card</span>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-badge">✓</div><span>Passport</span>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-badge">✓</div><span>Driver's License</span>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-badge">✓</div><span>Government Employee ID Card</span>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-badge">✓</div><span>Pension Document with Photo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. DEMO EVM VOTING SIMULATION SECTION (REAL-LIFE STEP-BY-STEP VOTER FLOW) -->
+    <section class="section" id="simulation">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge" id="badgeSim">Hands-on Experience</span>
+                <h2 class="section-title" id="titleSim">Realistic Step-by-Step Voting Simulator</h2>
+                <p class="section-subtitle" id="subSim">Follow the authentic step-by-step process of casting a vote in a
+                    secure
+                    polling booth!
+                </p>
+            </div>
+
+            <div class="sim-container">
+                <!-- STEPPER HEADER -->
+                <div class="stepper-header">
+                    <div class="stepper-progress-bar" id="stepperProgressBar"></div>
+
+                    <div class="step-node active" data-step="1" id="stepNode1">
+                        <div class="step-circle">1</div>
+                        <span class="step-label">🪪 Verification</span>
+                    </div>
+
+                    <div class="step-node" data-step="2" id="stepNode2">
+                        <div class="step-circle">2</div>
+                        <span class="step-label">🖋️ Inking</span>
+                    </div>
+
+                    <div class="step-node" data-step="3" id="stepNode3">
+                        <div class="step-circle">3</div>
+                        <span class="step-label">🗳️ EVM Ballot</span>
+                    </div>
+
+                    <div class="step-node" data-step="4" id="stepNode4">
+                        <div class="step-circle">4</div>
+                        <span class="step-label">🧾 Confirmation</span>
+                    </div>
+                </div>
+
+                <!-- STEP PANELS -->
+
+                <!-- STEP 1: IDENTITY VERIFICATION -->
+                <div class="step-panel active" id="stepPanel1">
+                    <div class="verification-box">
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            <span style="font-size: 2.5rem;">🪪</span>
+                            <h3 style="font-size: 1.3rem; font-weight: 800; margin-top: 0.5rem;">Step 1: Voter Identity
+                                Verification
+                            </h3>
+                            <p style="font-size: 0.88rem; color: var(--text-muted);">Polling Officer 1 checks your Photo
+                                ID (EPIC
+                                Card) against the official Electoral Roll.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="voterNameInput"
+                                value="Alex Morgan (Demo Voter)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Voter ID (EPIC Card Number)</label>
+                            <input type="text" class="form-control" id="voterEpicInput" value="EPIC-2026-90821"
+                                readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Accepted Identity Proof</label>
+                            <select class="form-control" id="voterIdType">
+                                <option>Voter ID Card (EPIC)</option>
+                                <option>Aadhaar / National ID</option>
+                                <option>Passport</option>
+                                <option>Driver's License</option>
+                            </select>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 1.5rem;">
+                            <button class="btn btn-primary" id="btnStep1Next">Verify Identity & Proceed to Inking
+                                ➔</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: INDELIBLE INKING & MACHINE ACTIVATION -->
+                <div class="step-panel" id="stepPanel2">
+                    <div class="inking-box">
+                        <div class="finger-graphic">
+                            ☝️
+                            <div class="ink-mark" id="inkMarkGraphic"></div>
+                        </div>
+                        <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem;">Step 2: Indelible Ink &
+                            EVM
+                            Activation</h3>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                            Polling Officer 2 applies Indelible Ink to your left forefinger to prevent double
+                            voting.<br />
+                            Polling Officer 3 presses the <strong>BALLOT</strong> button on the Control Unit to unlock
+                            the EVM Ballot
+                            Unit for you.
+                        </p>
+
+                        <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem;">
+                            <button class="btn btn-secondary" id="btnApplyInk">🖋️ Mark Indelible Ink</button>
+                        </div>
+
+                        <div id="inkStatusBadge"
+                            style="display: none; padding: 0.75rem; background: var(--success-light); color: var(--success); font-weight: 800; border-radius: var(--radius-sm); margin-bottom: 1.5rem;">
+                            ✅ Indelible Ink Applied & Signature Verified! Control Unit Status: BALLOT READY 🟢
+                        </div>
+
+                        <div style="text-align: center;">
+                            <button class="btn btn-primary" id="btnStep2Next" disabled>Enter Voting Compartment to Cast
+                                Vote
+                                ➔</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: EVM BALLOT UNIT & VVPAT AUDIT DISPLAY -->
+                <div class="step-panel" id="stepPanel3">
+                    <div class="evm-machine">
+                        <!-- EVM Ballot Unit -->
+                        <div>
+                            <div class="evm-panel-title">
+                                <span>🗳️ EVM Ballot Unit</span>
+                                <span class="evm-status-badge ready" id="evmStatusBadge">BALLOT READY</span>
+                            </div>
+
+                            <div class="evm-candidate-list" id="evmCandidateList">
+                                <div class="evm-row">
+                                    <div class="candidate-info">
+                                        <span class="candidate-num">1</span>
+                                        <span class="candidate-symbol">🍃</span>
+                                        <span class="candidate-name">Clean Energy Initiative</span>
+                                    </div>
+                                    <div class="evm-btn-group">
+                                        <div class="evm-led" id="led0"></div>
+                                        <button class="evm-btn" data-candidate="0">VOTE</button>
+                                    </div>
+                                </div>
+
+                                <div class="evm-row">
+                                    <div class="candidate-info">
+                                        <span class="candidate-num">2</span>
+                                        <span class="candidate-symbol">💻</span>
+                                        <span class="candidate-name">Digital Education Program</span>
+                                    </div>
+                                    <div class="evm-btn-group">
+                                        <div class="evm-led" id="led1"></div>
+                                        <button class="evm-btn" data-candidate="1">VOTE</button>
+                                    </div>
+                                </div>
+
+                                <div class="evm-row">
+                                    <div class="candidate-info">
+                                        <span class="candidate-num">3</span>
+                                        <span class="candidate-symbol">🏥</span>
+                                        <span class="candidate-name">Public Healthcare Upgrade</span>
+                                    </div>
+                                    <div class="evm-btn-group">
+                                        <div class="evm-led" id="led2"></div>
+                                        <button class="evm-btn" data-candidate="2">VOTE</button>
+                                    </div>
+                                </div>
+
+                                <div class="evm-row">
+                                    <div class="candidate-info">
+                                        <span class="candidate-num">4</span>
+                                        <span class="candidate-symbol">⚽</span>
+                                        <span class="candidate-name">Youth Sports Expansion</span>
+                                    </div>
+                                    <div class="evm-btn-group">
+                                        <div class="evm-led" id="led3"></div>
+                                        <button class="evm-btn" data-candidate="3">VOTE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VVPAT Paper Slip Display Unit -->
+                        <div>
+                            <div class="evm-panel-title">
+                                <span>🧾 VVPAT Audit Window</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">7-Second Display
+                                    Window</span>
+                            </div>
+
+                            <div class="vvpeat-screen" id="vvpeatScreen">
+                                <div class="vvpeat-glass-overlay"></div>
+
+                                <div class="vvpeat-idle" id="vvpeatIdle">
+                                    <p style="font-size: 1.1rem; font-weight: 800;">STANDBY</p>
+                                    <p style="font-size: 0.8rem; margin-top: 0.5rem;">Press a blue button on the Ballot
+                                        Unit to register
+                                        your vote.</p>
+                                </div>
+
+                                <div class="vvpeat-slip" id="vvpeatSlip">
+                                    <p
+                                        style="font-size: 0.7rem; color: #64748b; font-weight: 800; border-bottom: 1px solid #cbd5e1; padding-bottom: 0.25rem;">
+                                        ELECTION COMMISSION OF DEMOCRACY</p>
+                                    <div
+                                        style="display: flex; align-items: center; justify-content: space-between; margin: 0.5rem 0;">
+                                        <span id="vvpeatSymbol" style="font-size: 1.8rem;">🍃</span>
+                                        <div style="text-align: right;">
+                                            <div id="vvpeatChoiceText" style="font-weight: 800; font-size: 0.95rem;">
+                                                Clean Energy</div>
+                                            <div style="font-size: 0.7rem; color: #64748b;">Serial #042</div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="background: #0f172a; color: #00ff88; font-size: 0.68rem; font-family: monospace; padding: 0.25rem; border-radius: 2px;">
+                                        STATUS: VERIFIED & ENCRYPTED ✅
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 1rem; text-align: center;">
+                                <p style="font-size: 0.8rem; color: var(--text-muted);" id="evmInstructionText">
+                                    💡 Press the blue button corresponding to your preferred choice.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REAL-TIME VOTE RECORDED ALERT BANNER -->
+                    <div class="vote-recorded-alert" id="voteRecordedAlert">
+                        <div class="vote-success-icon">✓</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--success); margin-bottom: 0.25rem;">
+                            YOUR VOTE
+                            HAS BEEN RECORDED!</h3>
+                        <p style="font-size: 1rem; color: var(--text-heading); font-weight: 600;"
+                            id="recordedVoteDetails">
+                            Your vote for <strong>Clean Energy Initiative</strong> was successfully registered on the
+                            EVM memory &
+                            printed to VVPAT.
+                        </p>
+                        <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 0.75rem;">
+                            <button class="btn btn-primary" id="btnGoToStep4">View Official Receipt & Step-wise Guide
+                                ➔</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: FINAL CONFIRMATION, DIGITAL RECEIPT & STEP-WISE GUIDE -->
+                <div class="step-panel" id="stepPanel4">
+                    <div
+                        style="text-align: center; max-width: 650px; margin: 0 auto; background: var(--bg-main); padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                        <div style="font-size: 3rem;">🎉</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--success); margin-top: 0.5rem;">
+                            Voting Completed
+                            Successfully</h3>
+                        <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                            Thank you for participating in this democratic exercise! Below is your anonymous digital
+                            voting badge and
+                            step-wise information summary.
+                        </p>
+
+                        <div
+                            style="background: var(--bg-card); border: 2px dashed var(--accent); padding: 1.25rem; border-radius: var(--radius-md); text-align: left; margin-bottom: 1.5rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">
+                                <span style="font-weight: 800; color: var(--accent);">🗳️ OFFICIAL VOTER RECEIPT
+                                    BADGE</span>
+                                <span
+                                    style="font-size: 0.75rem; background: var(--success-light); color: var(--success); padding: 0.2rem 0.5rem; border-radius: var(--radius-full); font-weight: 800;">VERIFIED
+                                    ✅</span>
+                            </div>
+                            <p style="font-size: 0.88rem;"><strong>Voter Name:</strong> <span id="recName">Alex
+                                    Morgan</span></p>
+                            <p style="font-size: 0.88rem;"><strong>Voter ID:</strong> <span
+                                    id="recEpic">EPIC-2026-90821</span></p>
+                            <p style="font-size: 0.88rem;"><strong>Choice Recorded:</strong> <span id="recChoice">Clean
+                                    Energy
+                                    Initiative</span></p>
+                            <p style="font-size: 0.88rem;"><strong>Verification Method:</strong> EVM Control Unit +
+                                VVPAT Paper Trail
+                            </p>
+                            <p style="font-size: 0.88rem;"><strong>Timestamp:</strong> <span
+                                    id="recTimestamp">2026-09-18 17:25</span>
+                            </p>
+                        </div>
+
+                        <div style="display: flex; justify-content: center; gap: 1rem;">
+                            <button class="btn btn-primary" id="resetSimBtn">Vote Again / Reset Demo EVM 🔄</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP-WISE INFORMATIONAL CARDS FOR VOTERS -->
+                <div class="step-info-grid">
+                    <div class="step-info-card">
+                        <h5>🪪 1. Identity Check</h5>
+                        <p style="color: var(--text-muted);">Officer 1 matches your photo ID with the official voter
+                            list to prevent
+                            impersonation.</p>
+                    </div>
+
+                    <div class="step-info-card">
+                        <h5>🖋️ 2. Indelible Inking</h5>
+                        <p style="color: var(--text-muted);">Special purple silver-nitrate ink is applied to your
+                            finger. It cannot
+                            be washed off immediately.</p>
+                    </div>
+
+                    <div class="step-info-card">
+                        <h5>🔒 3. EVM Security</h5>
+                        <p style="color: var(--text-muted);">EVMs are standalone machines with NO internet, Bluetooth,
+                            or wireless
+                            capabilities. 100% tamper-proof.</p>
+                    </div>
+
+                    <div class="step-info-card">
+                        <h5>🧾 4. VVPAT Paper Trail</h5>
+                        <p style="color: var(--text-muted);">VVPAT prints a paper slip showing your vote choice behind
+                            glass for 7
+                            seconds before dropping into a sealed box.</p>
+                    </div>
+                </div>
+
+                <!-- Live Vote Results Visualizer -->
+                <div class="sim-results">
+                    <h4 style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1.25rem;">
+                        Live Demo Vote Counting Visualizer
+                    </h4>
+
+                    <div class="bar-chart-item">
+                        <div class="bar-label">
+                            <span>🍃 Clean Energy Initiative</span>
+                            <span id="pct0">25% (1 Vote)</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" id="bar0" style="width: 25%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-chart-item">
+                        <div class="bar-label">
+                            <span>💻 Digital Education Program</span>
+                            <span id="pct1">25% (1 Vote)</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" id="bar1" style="width: 25%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-chart-item">
+                        <div class="bar-label">
+                            <span>🏥 Public Healthcare Upgrade</span>
+                            <span id="pct2">25% (1 Vote)</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" id="bar2" style="width: 25%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-chart-item">
+                        <div class="bar-label">
+                            <span>⚽ Youth Sports Expansion</span>
+                            <span id="pct3">25% (1 Vote)</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" id="bar3" style="width: 25%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. ELECTION AWARENESS GALLERY -->
+    <section class="section" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Visual Awareness</span>
+                <h2 class="section-title">Election Awareness Gallery</h2>
+                <p class="section-subtitle">Powerful visuals that celebrate the spirit of democracy and the importance
+                    of every citizen's vote.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <img src="images/voters_queue.png" alt="Citizens queuing to vote at a polling station"
+                        loading="lazy" />
+                    <div class="gallery-overlay">
+                        <span class="gallery-tag">Civic Duty</span>
+                        <h4>Citizens at the Polls</h4>
+                        <p>Diverse citizens lining up to exercise their democratic right — every vote counts in shaping
+                            our future.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="images/evm_voting.png" alt="Voter using an Electronic Voting Machine" loading="lazy" />
+                    <div class="gallery-overlay">
+                        <span class="gallery-tag">Secure Voting</span>
+                        <h4>EVM & VVPAT in Action</h4>
+                        <p>A voter casting their ballot on a secure Electronic Voting Machine with VVPAT paper
+                            verification.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="images/democracy_power.png" alt="Hands casting ballots into a ballot box"
+                        loading="lazy" />
+                    <div class="gallery-overlay">
+                        <span class="gallery-tag">Democracy</span>
+                        <h4>The Power of the Ballot</h4>
+                        <p>Every ballot dropped into the box carries the collective hopes and aspirations of the people.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="images/inked_finger.png" alt="Inked finger after voting" loading="lazy" />
+                    <div class="gallery-overlay">
+                        <span class="gallery-tag">I Voted</span>
+                        <h4>The Proud Inked Finger</h4>
+                        <p>The indelible ink mark — a proud badge of democratic participation worn by every voter.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+        style="padding: 3rem 0; text-align: center; border-top: 1px solid var(--border-color); background: var(--bg-main);">
+        <div class="container">
+            <p style="font-weight: 800; color: var(--text-heading); margin-bottom: 0.5rem;">🗳️ Election Awareness
+                Initiative
+            </p>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Strictly educational and non-partisan. Designed for
+                public civic awareness.</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">© 2026 Election Awareness
+                Initiative.
+                All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* 1. Theme Switcher */
+            const themeSelect = document.getElementById('themeSelect');
+            const quickThemeBtn = document.getElementById('quickThemeBtn');
+            const htmlEl = document.documentElement;
+
+            function setTheme(t) {
+                htmlEl.setAttribute('data-theme', t);
+                themeSelect.value = t;
+                quickThemeBtn.textContent = t === 'light' ? '☀️' : (t === 'dark' ? '🌙' : '🌌');
+            }
+
+            themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
+            quickThemeBtn.addEventListener('click', () => {
+                const cur = htmlEl.getAttribute('data-theme') || 'light';
+                setTheme(cur === 'light' ? 'dark' : (cur === 'dark' ? 'midnight' : 'light'));
+            });
+
+            /* 2. REALISTIC STEP-BY-STEP EVM SIMULATOR LOGIC */
+            let currentStep = 1;
+            let simVotes = [1, 1, 1, 1];
+            const candidateNames = ["Clean Energy Initiative", "Digital Education Program", "Public Healthcare Upgrade", "Youth Sports Expansion"];
+            const candidateSymbols = ["🍃", "💻", "🏥", "⚽"];
+
+            const stepperProgressBar = document.getElementById('stepperProgressBar');
+            const stepNodes = document.querySelectorAll('.step-node');
+            const stepPanels = document.querySelectorAll('.step-panel');
+
+            const btnStep1Next = document.getElementById('btnStep1Next');
+            const btnApplyInk = document.getElementById('btnApplyInk');
+            const inkMarkGraphic = document.getElementById('inkMarkGraphic');
+            const inkStatusBadge = document.getElementById('inkStatusBadge');
+            const btnStep2Next = document.getElementById('btnStep2Next');
+
+            const evmBtns = document.querySelectorAll('.evm-btn');
+            const evmStatusBadge = document.getElementById('evmStatusBadge');
+            const vvpeatIdle = document.getElementById('vvpeatIdle');
+            const vvpeatSlip = document.getElementById('vvpeatSlip');
+            const vvpeatSymbol = document.getElementById('vvpeatSymbol');
+            const vvpeatChoiceText = document.getElementById('vvpeatChoiceText');
+            const voteRecordedAlert = document.getElementById('voteRecordedAlert');
+            const recordedVoteDetails = document.getElementById('recordedVoteDetails');
+            const btnGoToStep4 = document.getElementById('btnGoToStep4');
+            const resetSimBtn = document.getElementById('resetSimBtn');
+
+            function goToStep(stepNum) {
+                currentStep = stepNum;
+                const pct = ((stepNum - 1) / 3) * 100;
+                if (stepperProgressBar) stepperProgressBar.style.width = `${pct}%`;
+
+                stepNodes.forEach((node, idx) => {
+                    const s = idx + 1;
+                    node.classList.remove('active', 'completed');
+                    if (s === stepNum) node.classList.add('active');
+                    else if (s < stepNum) node.classList.add('completed');
+                });
+
+                stepPanels.forEach((panel, idx) => {
+                    panel.classList.toggle('active', (idx + 1) === stepNum);
+                });
+            }
+
+            // Step 1: Verification
+            if (btnStep1Next) {
+                btnStep1Next.addEventListener('click', () => goToStep(2));
+            }
+
+            // Step 2: Ink Application
+            if (btnApplyInk) {
+                btnApplyInk.addEventListener('click', () => {
+                    if (inkMarkGraphic) inkMarkGraphic.classList.add('applied');
+                    if (inkStatusBadge) inkStatusBadge.style.display = 'block';
+                    if (btnStep2Next) btnStep2Next.disabled = false;
+                    playBeepSound(600, 0.1);
+                });
+            }
+
+            if (btnStep2Next) {
+                btnStep2Next.addEventListener('click', () => goToStep(3));
+            }
+
+            // Audio Beep Helpers using Web Audio API
+            function playBeepSound(freq = 880, duration = 0.15) {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + duration);
+                } catch (e) { }
+            }
+
+            function playLongEvmBeep() {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(750, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 1.2);
+                } catch (e) { }
+            }
+
+            // Step 3: Voting logic
+            evmBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const candidateIdx = parseInt(this.getAttribute('data-candidate'));
+
+                    // 1. Play EVM Click Tone
+                    playBeepSound(880, 0.15);
+
+                    // 2. Update LED Light to Green for chosen candidate
+                    document.querySelectorAll('.evm-led').forEach(led => led.classList.remove('active'));
+                    const led = document.getElementById(`led${candidateIdx}`);
+                    if (led) led.classList.add('active');
+
+                    // Disable EVM Buttons after voting
+                    evmBtns.forEach(b => b.disabled = true);
+                    if (evmStatusBadge) {
+                        evmStatusBadge.textContent = 'VOTE BUSY';
+                        evmStatusBadge.classList.remove('ready');
+                    }
+
+                    // 3. VVPAT Glass Window Slip Printing Animation
+                    if (vvpeatIdle) vvpeatIdle.style.display = 'none';
+                    if (vvpeatSymbol) vvpeatSymbol.textContent = candidateSymbols[candidateIdx];
+                    if (vvpeatChoiceText) vvpeatChoiceText.textContent = candidateNames[candidateIdx];
+                    if (vvpeatSlip) {
+                        vvpeatSlip.classList.remove('printing');
+                        void vvpeatSlip.offsetWidth; // trigger reflow
+                        vvpeatSlip.classList.add('printing');
+                    }
+
+                    // 4. Stored Vote & Long EVM Beep after 1.2 seconds
+                    setTimeout(() => {
+                        playLongEvmBeep();
+                        if (evmStatusBadge) {
+                            evmStatusBadge.textContent = 'VOTE RECORDED ✅';
+                            evmStatusBadge.classList.add('ready');
+                        }
+
+                        // Show "YOUR VOTE HAS BEEN RECORDED" alert banner
+                        if (voteRecordedAlert) voteRecordedAlert.classList.add('visible');
+                        if (recordedVoteDetails) {
+                            recordedVoteDetails.innerHTML = `Your vote for <strong>${candidateNames[candidateIdx]}</strong> was successfully registered on EVM internal memory & verified by VVPAT slip.`;
+                        }
+
+                        // Update receipt details
+                        const nameInput = document.getElementById('voterNameInput');
+                        const epicInput = document.getElementById('voterEpicInput');
+                        const nameVal = (nameInput && nameInput.value) ? nameInput.value : 'Alex Morgan';
+                        const epicVal = (epicInput && epicInput.value) ? epicInput.value : 'EPIC-2026-90821';
+
+                        const recName = document.getElementById('recName');
+                        const recEpic = document.getElementById('recEpic');
+                        const recChoice = document.getElementById('recChoice');
+                        const recTimestamp = document.getElementById('recTimestamp');
+
+                        if (recName) recName.textContent = nameVal;
+                        if (recEpic) recEpic.textContent = epicVal;
+                        if (recChoice) recChoice.textContent = `${candidateSymbols[candidateIdx]} ${candidateNames[candidateIdx]}`;
+                        if (recTimestamp) {
+                            const now = new Date();
+                            recTimestamp.textContent = now.toLocaleString();
+                        }
+
+                        // Update results visualizer bar chart
+                        simVotes[candidateIdx]++;
+                        updateResultsVisualizer();
+                    }, 1200);
+                });
+            });
+
+            if (btnGoToStep4) {
+                btnGoToStep4.addEventListener('click', () => goToStep(4));
+            }
+
+            if (resetSimBtn) {
+                resetSimBtn.addEventListener('click', () => {
+                    // Reset everything
+                    evmBtns.forEach(b => b.disabled = false);
+                    document.querySelectorAll('.evm-led').forEach(led => led.classList.remove('active'));
+                    if (vvpeatSlip) vvpeatSlip.classList.remove('printing');
+                    if (vvpeatIdle) vvpeatIdle.style.display = 'block';
+                    if (voteRecordedAlert) voteRecordedAlert.classList.remove('visible');
+                    if (inkMarkGraphic) inkMarkGraphic.classList.remove('applied');
+                    if (inkStatusBadge) inkStatusBadge.style.display = 'none';
+                    if (btnStep2Next) btnStep2Next.disabled = true;
+                    if (evmStatusBadge) {
+                        evmStatusBadge.textContent = 'BALLOT READY';
+                        evmStatusBadge.classList.add('ready');
+                    }
+                    goToStep(1);
+                });
+            }
+
+            function updateResultsVisualizer() {
+                const total = simVotes.reduce((a, b) => a + b, 0);
+                simVotes.forEach((count, idx) => {
+                    const pct = Math.round((count / total) * 100);
+                    const barEl = document.getElementById(`bar${idx}`);
+                    const pctEl = document.getElementById(`pct${idx}`);
+                    if (barEl) barEl.style.width = `${pct}%`;
+                    if (pctEl) pctEl.textContent = `${pct}% (${count} Votes)`;
+                });
+            }
+
+            updateResultsVisualizer();
+
+            /* 3. AI CHATBOT LOGIC */
+            const aiLauncher = document.getElementById('aiLauncher');
+            const aiChatModal = document.getElementById('aiChatModal');
+            const closeChatBtn = document.getElementById('closeChatBtn');
+            const chatBody = document.getElementById('chatBody');
+            const chatInput = document.getElementById('chatInput');
+            const sendChatBtn = document.getElementById('sendChatBtn');
+
+            aiLauncher.addEventListener('click', () => aiChatModal.style.display = 'flex');
+            closeChatBtn.addEventListener('click', () => aiChatModal.style.display = 'none');
+
+            const kbAnswers = {
+                documents: "You must bring a valid Photo ID to vote, such as a Voter ID Card (EPIC), Passport, Aadhaar Card, Driver's License, or Govt Employee ID.",
+                eligibility: "To vote, you must be a registered citizen, at least 18 years old by the qualifying date, and registered in your electoral roll.",
+                location: "Check our Election Awareness Gallery above for inspiring visuals about civic participation! Contact your local election commission for polling station details.",
+                evm: "An EVM (Electronic Voting Machine) records your vote securely. The attached VVPAT displays a paper receipt for 7 seconds confirming your choice."
+            };
+
+            function addChatMsg(text, type = 'bot') {
+                const msg = document.createElement('div');
+                msg.className = `chat-msg ${type}`;
+                msg.innerHTML = text;
+                chatBody.appendChild(msg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            function handleUserQuery(q) {
+                if (!q.trim()) return;
+                addChatMsg(q, 'user');
+                chatInput.value = '';
+
+                setTimeout(() => {
+                    const lower = q.toLowerCase();
+                    if (lower.includes('doc') || lower.includes('id') || lower.includes('card')) {
+                        addChatMsg(kbAnswers.documents);
+                    } else if (lower.includes('eligible') || lower.includes('age') || lower.includes('18')) {
+                        addChatMsg(kbAnswers.eligibility);
+                    } else if (lower.includes('booth') || lower.includes('location') || lower.includes('where')) {
+                        addChatMsg(kbAnswers.location);
+                    } else if (lower.includes('evm') || lower.includes('machine') || lower.includes('vvpat') || lower.includes('demo')) {
+                        addChatMsg(kbAnswers.evm);
+                    } else {
+                        addChatMsg("I am your CivicAI Assistant! Ask me about EVM demo voting, required documents, eligibility rules, and polling station location!");
+                    }
+                }, 400);
+            }
+
+            sendChatBtn.addEventListener('click', () => handleUserQuery(chatInput.value));
+            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleUserQuery(chatInput.value); });
+            document.querySelectorAll('.chip-btn').forEach(btn => {
+                btn.addEventListener('click', () => handleUserQuery(kbAnswers[btn.getAttribute('data-query')]));
+            });
+
+            /* 4. Mobile Menu */
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+        });
+    </script>
+</body>
+
+</html>
